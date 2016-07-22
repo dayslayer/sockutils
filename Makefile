@@ -1,17 +1,23 @@
 .DEFAULT_GOAL=all
 
 
+MODULE=sockutil
+
 DIR_BIN=bin
 DIR_OBJ=obj
 DIR_SRC=src
 
-OBJECTS=$(wildcard $(DIR_OBJ)/*.o)
+# source files, with directory and extension
+SOURCES=$(wildcard $(DIR_SRC)/*.c)
+# target names of object files, no directory
+OBJECTS=$(patsubst %.c, %.o, $(notdir $(SOURCES)))
 
 
 all: static shared
 
 static: $(OBJECTS)
-	ar rcs $(DIR_BIN)/libsockutil.a $(OBJECTS)
+	ar rcs $(DIR_BIN)/lib$(MODULE).a $(DIR_OBJ)/$^
+
 shared:
 
 %.o: $(DIR_SRC)/%.c
